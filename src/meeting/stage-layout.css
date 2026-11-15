@@ -1,0 +1,38 @@
+.source-workspace { min-height: 0; }
+.stage-layout-controls { flex-wrap: wrap; gap: 12px; }
+.stage-layout-controls h2 { margin-right: auto; }
+.stage-layout-controls label { display: flex; align-items: center; gap: 8px; margin: 0; }
+.stage-layout-controls select { width: auto; min-width: 88px; }
+.source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; align-items: start; padding-bottom: 12px; }
+.source-tile { min-width: 0; border: 1px solid var(--meeting-border, var(--line)); border-radius: 14px; background: var(--meeting-surface, white); overflow: hidden; }
+.source-tile.pinned { border-color: #b95834; box-shadow: 0 0 0 1px #b95834; order: -1; }
+.source-tile.focused { grid-column: 1 / -1; order: -2; }
+.focus-layout .source-tile:not(.focused) { max-height: 350px; overflow: auto; }
+.source-tile-heading { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink); }
+.source-tile-heading > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-badge { margin-left: auto; font-size: 9px; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; white-space: nowrap; color: var(--muted); }
+.source-tile-content > .meeting-person, .source-tile-content > .video-tile { border-radius: 0; border: 0; margin: 0; }
+.source-tile .meeting-person { min-height: 175px; aspect-ratio: 16 / 10; }
+.source-tile.focused .meeting-person { min-height: 280px; max-height: 58vh; }
+.source-tile .meeting-screen video { max-height: 56vh; }
+.source-tile-content .video-caption { flex-wrap: wrap; gap: 6px; }
+.source-tile-content .video-caption select { max-width: 135px; }
+.source-tile-actions { display: flex; flex-wrap: wrap; gap: 6px; padding: 9px 12px; border-top: 1px solid var(--line); }
+.tile-action { background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 6px 9px; min-height: 32px; font-size: 11px; cursor: pointer; }
+.tile-action:hover { background: var(--meeting-control, #eceee7); }
+.tile-action:disabled { opacity: .45; cursor: not-allowed; }
+.tile-action[aria-pressed=true] { background: var(--meeting-selected, #f6dfd3); color: var(--meeting-selected-ink, #924025); }
+.participant-listening { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 12px; }
+.tile-volume { font-size: 10px; flex: 1 1 100px; min-width: 0; margin: 0; }
+.tile-volume input { display: block; width: 100%; margin-top: 7px; accent-color: #c64a27; }
+.device-audio-tile { display: flex; flex-direction: column; gap: 14px; padding: 20px; min-height: 210px; color: var(--ink); }
+.device-audio-tile > strong { font-size: 14px; }
+.audio-source-icon { font-size: 25px; color: var(--accent); }
+.audio-source-state { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+.audio-activity-dot { width: 7px; height: 7px; background: #929d8a; border-radius: 50%; }
+.audio-active .audio-activity-dot { background: #35916d; }
+.device-audio-tile meter { width: 100%; height: 8px; }
+.stage-empty-note { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 0 0 18px; }
+.source-tile:fullscreen { background: var(--meeting-surface, white); overflow: auto; padding: 20px; }
+.source-tile:fullscreen video { width: 100%; height: 78vh; max-height: none; object-fit: contain; }
+@media(max-width: 620px) { .source-grid { grid-template-columns: 1fr; } .source-tile.focused { grid-column: auto; } .source-tile-actions { gap: 8px; } .tile-action { min-height: 36px; } }

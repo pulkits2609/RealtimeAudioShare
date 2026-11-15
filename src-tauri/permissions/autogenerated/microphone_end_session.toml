@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-microphone-end-session"
+description = "Enables the microphone_end_session command without any pre-configured scope."
+commands.allow = ["microphone_end_session"]
+
+[[permission]]
+identifier = "deny-microphone-end-session"
+description = "Denies the microphone_end_session command without any pre-configured scope."
+commands.deny = ["microphone_end_session"]

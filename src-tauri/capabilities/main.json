@@ -1,0 +1,12 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-capture",
+  "description": "Only the local main AudioShare window can use the native audio bridge.",
+  "windows": ["main"],
+  "permissions": [
+    "allow-capture-subscribe", "allow-capture-devices", "allow-capture-capabilities",
+    "allow-capture-start", "allow-capture-stop", "allow-capture-stats",
+    "allow-capture-ack", "allow-capture-close", "allow-microphone-begin-session",
+    "allow-microphone-end-session"
+  ]
+}

@@ -1,0 +1,29 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+verification/
+
+storybook-static/
+test-results/
+playwright-report/
+artifacts/
+src-tauri/native-capture/bin/
+src-tauri/native-capture/obj/
+src-tauri/resources/native/*.exe
+src-tauri/resources/native/*.pdb
+
+# Local SDKs and agent-installed tooling are not application source.
+.tools/
+.agents/skills/
+skills-lock.json
+
+# Runtime credentials, access stores and signing material.
+.env
+.env.*
+!.env.example
+settings.env
+data/
+*.pfx
+*.p12
+*.key

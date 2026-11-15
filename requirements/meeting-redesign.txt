@@ -1,0 +1,290 @@
+Redesign RealtimeAudioShare into a polished, production-quality meeting
+application inspired by the interaction quality of Discord, Google Meet
+and Zoom. Use our own visual identity and adapt the design to our existing
+features.
+
+First inspect the current browser UI, shared Windows renderer, media
+lifecycle, room management and tests. Then implement the redesign through
+the normal application entry points.
+
+The primary targets are browser and Windows. Keep Android interoperability
+working.
+
+1. Replace the tabs workflow with a meeting workspace
+
+After joining, open directly into the meeting.
+
+The main canvas should contain participant tiles and shared-content tiles.
+Keep the primary controls in a persistent bottom toolbar. Put advanced
+settings in anchored popovers, dialogs or side drawers.
+
+Remove the need to switch between Meeting, Screens, Shared audio, Devices
+and Connection tabs to perform ordinary actions.
+
+Use the available window height. Scroll within drawers or long lists when
+necessary. Keep the meeting canvas and primary controls accessible.
+
+Before joining, show a concise connection screen with display name, server,
+port, secure connection and credential fields. Keep advanced connection
+options collapsed. Clearly indicate whether camera and microphone will
+start enabled. Default both to OFF.
+
+2. Build a persistent bottom toolbar
+
+Provide distinct controls for:
+
+- Microphone on/off.
+- Camera on/off.
+- Screen sharing.
+- Device-audio sharing.
+- Speaker/deafen control.
+- Chat.
+- Participants.
+- Room management, when permitted.
+- Settings.
+- Leave room.
+
+Group related controls visually. Make Leave distinct and keep it away from
+frequently used controls.
+
+Each media button must show its actual state, including starting, live,
+stopping, reconnecting, permission denied or unavailable.
+
+A small adjacent arrow can open microphone, camera or output-device
+selection without toggling the main action.
+
+Show tooltips with action names and documented shortcuts. Include visible
+keyboard focus and accessible names. On small windows, move secondary
+actions into a More menu while keeping essential media and Leave controls
+available.
+
+3. Treat shared content as independent tiles
+
+Every participant gets a participant tile.
+
+Every published screen gets its own additional tile, clearly labelled
+with the owner's name and "Screen". A person sharing their camera and
+screen therefore appears as two related tiles.
+
+A system-audio share should have an additional compact source tile labelled
+with its owner and "Device audio". Include playback controls, stream state
+and an activity indicator derived from real audio activity where available.
+
+Group sources by their actual owner while keeping their controls separate.
+An Android companion publishing identity must appear under its parent.
+
+Show source badges so users can distinguish camera, screen and audio.
+Do not duplicate the same publication into multiple tiles.
+
+When sharing starts or stops, update the canvas automatically.
+
+4. Add pinning, focus and layout choices
+
+Each participant or content tile should offer:
+
+- Pin/unpin.
+- Focus.
+- Fullscreen where supported.
+- Source-specific listening or quality controls where applicable.
+
+Pinning is a local viewing preference. Support multiple pinned tiles.
+Pinned tiles should stay visible while unpinned tiles occupy the remaining
+gallery or filmstrip.
+
+Provide Auto, Grid and Focus layouts. In Focus, place the selected tile
+prominently with a filmstrip of other sources.
+
+Preserve stable tile ordering. Speaking indicators should not constantly
+rearrange the gallery. When a pinned source disappears, remove that pin
+cleanly and select a sensible fallback without stealing keyboard focus.
+
+Allow users to return to the full gallery in one action.
+
+5. Make chat and participants side drawers
+
+Chat opens on the right and smoothly reduces the canvas width. Closing it
+restores that space. Keep camera and screen elements mounted where possible
+so opening chat does not restart playback or reset quality settings.
+
+The chat button should toggle the drawer. Also support a visible close
+button and Escape. Restore focus to the triggering control when it closes.
+
+Provide:
+
+- Unread count and a restrained new-message indicator.
+- Sender names and readable timestamps.
+- Enter to send, Shift+Enter for a new line, and correct IME handling.
+- Stable composer focus after sending.
+- Clear sending and failure states based on actual delivery guarantees.
+- Retry without accidentally duplicating messages.
+- A "New messages" jump button when the user has scrolled upward.
+- Empty and disconnected states.
+
+The Participants drawer should show live presence, microphone/camera/share
+states, speaking activity and role.
+
+Display room membership/access separately from current live attendance.
+Owner and moderator actions must update the UI automatically.
+
+6. Improve media controls
+
+For microphone and camera, support device selection and accurate permission
+errors. Keep user intent separate from actual capture/publication state.
+Turning a source OFF must stop capture immediately, including during pending
+permission requests and reconnects.
+
+Keep microphone, camera, screen video and shared device audio independent.
+Make it obvious which sources are currently live.
+
+For sharing, provide a compact setup dialog or popover containing existing
+options such as quality, maximum FPS and text/motion mode.
+
+Show requested settings and measured delivery distinctly. Viewer quality
+choices must respect the publisher's available stream and layers.
+
+Preserve per-person voice and shared-audio volume, separate playback routes,
+audio-only listening, and "hear others while sharing" preferences.
+
+Expose feedback-safe Windows capture options with concise explanations.
+Show recovery when a device disappears or defaults change.
+
+7. Add purposeful animation
+
+Use a consistent motion system with short, restrained transitions.
+
+Animate:
+
+- Opening and closing side drawers.
+- Gallery reflow when tiles join, leave or become pinned.
+- Sharing and capture state changes.
+- Popovers, tooltips and dialogs.
+- Toast appearance and dismissal.
+- Speaking activity and reconnect indicators.
+
+Suggested timing is about 120–180 ms for controls and 180–250 ms for larger
+layout transitions. Tune these after testing.
+
+Avoid remounting live video elements just to animate them. Avoid expensive
+effects that interfere with media rendering.
+
+Respect prefers-reduced-motion. Under reduced motion, use simple fades or
+instant changes and keep every state understandable.
+
+8. Add configurable sound effects
+
+Create a coherent, subtle sound set for:
+
+- Participant join and leave.
+- Incoming chat when appropriate.
+- Sharing started or stopped.
+- Connection lost and restored.
+- Important action failure.
+
+Provide a master interface-sounds toggle and volume control, with optional
+per-event settings. Save these preferences.
+
+Do not play notification sounds on initial history hydration, repeatedly
+during retries, or for the user's own messages. Batch bursts of participant
+events to avoid a cascade of sounds.
+
+Keep notification audio separate from shared media volume. Consider its
+capture route so interface sounds do not create feedback or unexpectedly
+enter a device-audio stream.
+
+Respect autoplay restrictions. Enable sounds after user interaction and
+handle blocked playback gracefully.
+
+Use original or appropriately licensed assets and include their notices.
+
+9. Improve visual consistency
+
+Create a coherent component system for buttons, menus, sliders, selectors,
+dialogs, drawers, tooltips, badges and notifications.
+
+Use consistent typography, spacing, radii, borders and icon sizes. Establish
+clear primary, secondary, destructive and disabled states.
+
+Support complete light and dark themes, including media placeholders,
+dialogs, scrollbars, charts and focus states.
+
+Use a recognizable AudioShare palette. Keep video and shared content as
+the visual focus. Use initials or saved avatars for camera-off participants.
+
+Provide clear empty states for being alone, having no shared content,
+having no messages and having no connected camera.
+
+10. Make recovery and errors understandable
+
+Use concise, actionable error messages close to the relevant control.
+
+Display reconnecting status without discarding the meeting layout or chat
+draft. Preserve local viewing and listening preferences through recovery.
+
+Avoid duplicate streams, event listeners, audio elements and participants.
+Fence asynchronous operations so an old connection cannot update a new
+room or reopen a stopped capture.
+
+Distinguish a server connection failure, media connection failure, permission
+failure, removed access and deleted room.
+
+Use bounded notifications with deduplication. Announce important state
+changes accessibly without making every transient event disruptive.
+
+11. Accessibility and responsive behavior
+
+Support keyboard navigation throughout, logical focus order, dialog focus
+containment, Escape dismissal and focus restoration.
+
+Provide sufficient contrast, usable pointer targets, accessible control
+names, pressed/expanded states and screen-reader announcements.
+
+Handle browser zoom, narrow desktop windows and mobile browser layouts.
+Keep chat and essential controls usable with the on-screen keyboard open.
+
+Document shortcuts and avoid collisions with text editing or operating
+system shortcuts.
+
+12. Preserve the deployment contract
+
+Keep run.bat 9999 9998 9996 9997 compatible.
+
+Keep the public API/signaling at https://vps.pulkitworks.info:9999,
+the optional frontend at https://vps.pulkitworks.info:9998,
+media UDP 9996 and TCP fallback 9997.
+
+Preserve the relative /media URL, existing /v1 request/response contracts,
+owner/invitation authentication, room tokens and Android companion publishing.
+
+Preserve exact-origin CORS, Electron null-origin support and secret-gated
+visitor-IP handling.
+
+Keep microphone, device audio, camera and screen video as distinct tracks.
+Keep chat on the reliable WebRTC data channel.
+
+Keep credentials and existing access data intact across upgrades.
+
+13. Verify the experience before packaging
+
+Test owner and guest joining, invitation creation and usage, room changes,
+normal leave, forced removal, role changes and reconnects.
+
+Verify automatic roster and tile updates without refresh.
+
+Test simultaneous camera, microphone, screen and device audio. Verify
+independent stop controls, pending capture cancellation, device switching
+and permission rejection.
+
+Test multiple simultaneous sharers, pinning, fullscreen, quality selection,
+chat drawer reflow, unread messages and keyboard focus.
+
+Verify that opening drawers and changing layouts do not interrupt media.
+
+Use isolated HTTPS/WSS testing with two real clients exchanging audio and
+chat. Verify UDP and repeat with UDP unavailable to exercise TCP fallback.
+
+Measure UI responsiveness and media CPU usage with several participants.
+Report the tested scenarios and remaining hardware/network gaps.
+
+Deliver the working implementation, screenshots of the main layouts,
+verification results and a Windows build ready for acceptance testing.
+Prepare the Store update package after those checks pass.
